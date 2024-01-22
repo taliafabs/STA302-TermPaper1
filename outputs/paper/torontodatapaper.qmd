@@ -42,32 +42,85 @@ library(janitor)
 library(dplyr)
 library(ggplot2)
 
+# loading the cleaned data
 streetcar_data <- read_csv(here::here("outputs/data/streetcar_data.csv"))
-
+streetcar_data <- streetcar_data |> 
+  mutate(line=as.character(line))
 ```
 
 ## 
 
 ```{r}
 #| label: fig-delaysperline
-#| fig-cap: Total Delays Per TTC Streetcar Line, 2023
+#| fig-cap: Streetcar Delays by Line
 #| echo: false
 #| warning: false
 #| message: false
 
-delays_per_line <- streetcar_data %>%
-  group_by(streetcar_line) %>%
+delays_per_line <- streetcar_data |>
+  group_by(line) |>
   summarize(delay_count = n())
+
+df1 <- data.frame(line = c(delays_per_line$line),
+                 num_delays = c(delays_per_line$delay_count))
+
+ggplot(df1, aes(x = line, y = num_delays)) +
+  geom_bar(stat="identity", fill="#FF7F7f", width=0.6, color="black") +
+  theme(text = element_text(size = 7)) +
+  labs(title="Delays Vary Across Streetcar Lines")
+```
+
+```{r}
+#| label: fig-amrushdelays
+#| fig-cap: Morning Rush Hour Delays, by Day
+#| echo: false
+#| warning: false
+#| message: false
+
+weekdays <- streetcar_data |>
+  filter(day == "Monday" | day == "Tuesday" | day == "Wednesday" |
+           day == "Thursday" | day == "Friday") 
+amrush <- weekdays |>
+  filter(am_rush == 1) |>
+  group_by(day) |>
+  summarize(am_delays = n())
+
+pmrush <- weekdays |>
+  filter(pm_rush == 1) |>
+  group_by(day) |>
+  summarize(pm_delays = n())
+
+
+
+
+
 
 
 ```
 
 ```{r}
 #| label: fig-rushhourdelays
-#| fig-cap: Total Delays Per TTC Streetcar Line at Rush Hour, 2023
+#| fig-cap: Streetcar Delays by Day of Week
 #| echo: false
 #| warning: false
 #| message: false
+
+days <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+
+num_delays <- c()
+for(day in days){
+  count <- sum(streetcar_data$day == day)
+  num_delays <- append(num_delays, count)
+}
+
+df2 <- data.frame(Day=days,
+                  count=num_delays)
+
+ggplot(df2, aes(x=Day, y=count, fill=Day)) +
+  geom_bar(stat="identity") +
+  labs(title="Streetcar Delays Peak at the end of the Week") +
+  theme(text = element_text(size = 8))
+
 
 ```
 
