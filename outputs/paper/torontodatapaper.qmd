@@ -1,5 +1,5 @@
 ---
-title: "500-series Streetcar Lines Experienced Most Delays in 2023"
+title: "Toronto Streetcar Delays Vary Based on Proximity to Downtown Core and Time of Day"
 author: "Talia Fabregas"
 date: "January 21, 2024"
 format: pdf
@@ -41,6 +41,9 @@ library(opendatatoronto)
 library(janitor)
 library(dplyr)
 library(ggplot2)
+
+streetcar_data <- read_csv(here::here("outputs/data/streetcar_data.csv"))
+
 ```
 
 ## 
@@ -51,7 +54,6 @@ library(ggplot2)
 #| echo: false
 #| warning: false
 #| message: false
-streetcar_data <- read_csv(here::here("outputs/data/streetcar_data.csv"))
 
 delays_per_line <- streetcar_data %>%
   group_by(streetcar_line) %>%

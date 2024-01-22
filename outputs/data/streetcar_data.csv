@@ -1,4 +1,4 @@
-date,streetcar_line,time,day,location,incident,min_delay,min_gap,bound,vehicle,am_rush,pm_rush
+date,line,time,day,location,incident,min_delay,min_gap,bound,vehicle,am_rush,pm_rush
 2023-01-01T00:00:00Z,509,02:37:00,Sunday,QUEENS QUAY AND SPADIN,Operations,0,0,E,4403,0,0
 2023-01-01T00:00:00Z,505,02:40:00,Sunday,BROADVIEW AND GERRARD,Held By,15,25,W,4460,0,0
 2023-01-01T00:00:00Z,504,02:52:00,Sunday,KING AND BATHURST,Cleaning - Unsanitary,10,20,W,4427,0,0

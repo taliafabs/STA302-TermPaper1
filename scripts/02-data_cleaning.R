@@ -31,7 +31,6 @@ streetcardelaydata <-
                                       "Thursday", "Friday") &
                              ((hour(time) >= 16) & (hour(time) <= 19)), 1, 0
   )) |>
-  rename(streetcar_line = line) |>
   tidyr::drop_na()
 
 
