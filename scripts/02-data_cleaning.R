@@ -21,10 +21,10 @@ raw_shooting_data <- read_csv("inputs/data/raw_shooting_data.csv")
 shootingdata <- 
   raw_shooting_data |>
   janitor::clean_names() |>
-  select(index, occurred_year, geo_division, count) |>
   tidyr::drop_na()
 
 
 ### Save data ###
 # save the clean data into the outputs data folder
 write_csv(shootingdata, "outputs/data/toronto_shooting_data.csv")
+
