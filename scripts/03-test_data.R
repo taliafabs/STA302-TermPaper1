@@ -14,3 +14,10 @@ library(janitor)
 
 #### Test data ####
 shooting_data <- read_csv("outputs/data/toronto_shooting_data.csv")
+
+# Test 1: Test that all data is from the period between 2014 and 2019, 
+# inclusive
+all(shooting_data$occurred_year >= 2014 & 
+      shooting_data$occurred_year <= 2019)
+
+# Test 2: 
