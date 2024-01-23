@@ -1,5 +1,5 @@
 ---
-title: "Toronto Streetcar Delays Vary Based on Proximity to Downtown Core and Time of Day"
+title: "Shooting Occurrences Increased Across the City of Toronto between 2014 and 2019"
 author: "Talia Fabregas"
 date: "January 21, 2024"
 format: pdf
@@ -8,7 +8,7 @@ editor: visual
 
 ## Abstract
 
-TTC Streetcar Delay Data from Open Data Toronto.
+Shooting data
 
 ## Contents
 
@@ -43,31 +43,34 @@ library(dplyr)
 library(ggplot2)
 
 # loading the cleaned data
-streetcar_data <- read_csv(here::here("outputs/data/streetcar_data.csv"))
-streetcar_data <- streetcar_data |> 
-  mutate(line=as.character(line))
+shooting_data <- read_csv(here::here("outputs/data/toronto_shooting_data.csv"))
+shooting_data
+
+
+  
 ```
 
 ## 
 
 ```{r}
-#| label: fig-delaysperline
-#| fig-cap: Streetcar Delays by Line
+#| label: fig-yearlytotalshootings
+#| fig-cap: Total Number of Shooting Occurrences Acoross Toronto, 2014-2019
 #| echo: false
 #| warning: false
 #| message: false
+yearly_totals <- shooting_data |>
+  group_by(occurred_year) |>
+  summarise(total = sum(count))
 
-delays_per_line <- streetcar_data |>
-  group_by(line) |>
-  summarize(delay_count = n())
+yearly_totals_df <- data.frame(
+  Year = yearly_totals$occurred_year,
+  Total = yearly_totals$total
+)
 
-df1 <- data.frame(line = c(delays_per_line$line),
-                 num_delays = c(delays_per_line$delay_count))
-
-ggplot(df1, aes(x = line, y = num_delays)) +
-  geom_bar(stat="identity", fill="#FF7F7f", width=0.6, color="black") +
-  theme(text = element_text(size = 7)) +
-  labs(title="Delays Vary Across Streetcar Lines")
+ggplot(yearly_totals_df, aes(x=Year, y=Total)) +
+  geom_bar(stat="identity", fill="#f36767", width=0.8) +
+  geom_line(size=1, color="blue", ) +
+  scale_x_continuous(breaks = seq(min(yearly_totals_df$Year), max(yearly_totals_df$Year), by = 1))
 ```
 
 ```{r}
@@ -77,49 +80,43 @@ ggplot(df1, aes(x = line, y = num_delays)) +
 #| warning: false
 #| message: false
 
-weekdays <- streetcar_data |>
-  filter(day == "Monday" | day == "Tuesday" | day == "Wednesday" |
-           day == "Thursday" | day == "Friday") 
-amrush <- weekdays |>
-  filter(am_rush == 1) |>
-  group_by(day) |>
-  summarize(am_delays = n())
+# weekdays <- streetcar_data |>
+#   filter(day == "Monday" | day == "Tuesday" | day == "Wednesday" |
+#            day == "Thursday" | day == "Friday") 
+# amrush <- weekdays |>
+#   filter(am_rush == 1) |>
+#   group_by(day) |>
+#   summarize(am_delays = n())
+# 
+# pmrush <- weekdays |>
+#   filter(pm_rush == 1) |>
+#   group_by(day) |>
+#   summarize(pm_delays = n())
 
-pmrush <- weekdays |>
-  filter(pm_rush == 1) |>
-  group_by(day) |>
-  summarize(pm_delays = n())
+area_totals <- shooting_data |>
+  group_by(geo_division, occurred_year) |>
+  summarise(total = sum(count))
 
-
-
-
-
-
+ggplot(area_totals, aes(x=geo_division, y=total, fill=geo_division)) +
+    geom_bar(stat="identity") +
+  theme(axis.text.x = element_blank()) +
+    facet_wrap(~occurred_year)
 
 ```
 
 ```{r}
-#| label: fig-rushhourdelays
-#| fig-cap: Streetcar Delays by Day of Week
+#| label: fig-yearlytotalsbydivision
+#| fig-cap: Annual Shooting Occurrences 2014-2019, by Toronto Police Division
 #| echo: false
 #| warning: false
 #| message: false
 
-days <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-
-num_delays <- c()
-for(day in days){
-  count <- sum(streetcar_data$day == day)
-  num_delays <- append(num_delays, count)
-}
-
-df2 <- data.frame(Day=days,
-                  count=num_delays)
-
-ggplot(df2, aes(x=Day, y=count, fill=Day)) +
-  geom_bar(stat="identity") +
-  labs(title="Streetcar Delays Peak at the end of the Week") +
-  theme(text = element_text(size = 8))
+ggplot(area_totals, aes(x=occurred_year, y=total)) +
+    geom_bar(stat="identity", fill="#f36767", width=0.8) +
+  geom_line(color="blue") +
+  scale_x_continuous(breaks = seq(min(yearly_totals_df$Year), max(yearly_totals_df$Year), by = 1)) +
+  theme(axis.text = element_text(size = 5)) +
+  facet_wrap(~geo_division)
 
 
 ```
