@@ -8,27 +8,21 @@ editor: visual
 
 ## Abstract
 
-Shooting data
+In 2005, the City of Toronto saw unprecedented levels of gun violence (Siciliano, 2). More than a decade later, the number of shooting occurrences in Toronto continued to rise. Using data from the City of Toronto Open Data Portal, this paper illustrates trends in the number of shooting occurrences in different divisions of Toronto, from 2014 to 2019, inclusive. This paper shows that across the City of Toronto, shooting occurrences steadily increased in the six-year period from 2014 to 2019.
 
-## Contents
+## Table of Contents
 
-1.  Introduction
+##### 1. Introduction
 
-2.  Data
+##### 2. Data
 
-    1.  Data Collection
+##### 3. Discussion
 
-    2.  Data Processing
-
-    3.  Ethical Considerations
-
-3.  Conclusions
-
-4.  References
-
-5.  References
+##### 4. Conclusions
 
 ## Introduction
+
+Canada has the fifth-highest rate of gun fatalities in the world among high-income countries, and between 2008 and 2012, firearms caused more deaths in young men ages 18-24 than cancer, falls, drowning, and fires combined (Owens, 2019).
 
 ## Data
 
@@ -122,5 +116,7 @@ ggplot(area_totals, aes(x=occurred_year, y=total)) +
 ```
 
 ## Conclusions
+
+This paper investigates how patterns in the number of shooting occurrences across Toronto changed between 2014 and 2019. The data clearly showed that while the overall total number of shooting occurrences across the City of Toronto increased year-over-year between 2014 and 2019, this pattern varied between divisions.
 
 ## References
