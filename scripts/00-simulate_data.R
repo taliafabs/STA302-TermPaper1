@@ -1,10 +1,10 @@
 #### Preamble ####
-# Purpose: Simulate TTC streetcar delay data for 2023.
+# Purpose: Simulate Toronto Shooting Occurrences Data 2014-2019
 # Author: Talia Fabregas
 # Date: January 16 2024 
 # Contact: talia.fabregas@mail.utoronto.ca 
 # License: MIT
-# Pre-requisites: Know where to obtain 2023 TTC Streetcar Delay Data from.
+# Pre-requisites: Know where to obtain Toronto Shooting Occurrences Data
 
 
 #### Workspace setup ####
@@ -16,21 +16,19 @@ library(janitor)
 #### Simulate data ####
 simulated_data <- 
   tibble(
-    # Use 1 through 1000 to do 1000 simulations.
-    "SimulateDelays" <- 1:1000,
-    # Randomly pick a year, with replacement, 1000 times.
-    "Line" = sample(
-      x=c("509", "505", "504", "510", "506", "501", "512", "310", "37",
-          "503", "511", "301", "600", "306", "304", "5204", "899",
-          "5101", "540", "500", "555", "999", "502", "705", "202", "507", 
-          "513", "508", "312", "525"),
-      size=1000,
+    # Use 1 through 100 to do 100 simulations.
+    "SimulateDelays" <- 1:100,
+    # Randomly pick a year, with replacement, from 2014-2019
+    "Year" = sample(
+      x=c("2014", "2015", "2016", "2016", "2017", "2018", "2019"),
+      size=100,
       replace=TRUE
     ),
-    # Randomly pick a date from 2023, with replacement, 1000 times
-    "Date" = sample(
-      x=c(seq(as.Date("2023-01-01"),as.Date("2023-12-31"),by="1 day")),
-      size=1000,
+    # Randomly pick a GeoDivision with replacement
+    "GeoDivision" = sample(
+      x=c("D11", "D12", "D13", "D14", "D22", "D23", "D31", "D32", "D33",
+          "D41", "D42", "D43", "D51", "D52", "D53", "D54/D55"),
+      size=100,
       replace=TRUE
     )
   )
