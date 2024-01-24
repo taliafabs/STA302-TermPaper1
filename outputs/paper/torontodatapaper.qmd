@@ -122,8 +122,10 @@ ggplot(area_totals, aes(x=occurred_year, y=total)) +
 
 ```
 
+D12, D23, and D31 consistently had more shooting occurrences than other geographical divisions. On the contrary, D52 and D53 consistently had fewer shooting occurrences than other geographical divisions.
+
 ## Conclusion
 
-This paper investigates how patterns in the number of shooting occurrences across Toronto changed between 2014 and 2019. The data clearly showed that while the overall total number of shooting occurrences across the City of Toronto increased year-over-year between 2014 and 2019, this pattern varied between divisions.
+This paper investigates how patterns in the number of shooting occurrences across Toronto changed between 2014 and 2019. The data clearly showed that while the overall total number of shooting occurrences across the City of Toronto increased year-over-year between 2014 and 2019, this pattern varied between divisions. Further research and investigation will be required to gain a deeper understanding of *why* gun violence widely varies across Toronto's different geographical divisions. However, the increase in shootings across the City of Toronto from 2014 to 2019 is ext
 
 ## References
