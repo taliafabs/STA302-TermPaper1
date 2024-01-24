@@ -2,7 +2,7 @@
 
 ## Overview
 
-Statement on Large Language Models (LLM's): 
+Statement on Large Language Models (LLM's): The Large Language Model (LLM) Chat GPT-3.5 was used for the purposes of this paper.
 
 ## File Structure
 
