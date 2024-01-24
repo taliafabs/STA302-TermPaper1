@@ -1,30 +1,40 @@
 ---
-title: "Shooting Occurrences Increased Across the City of Toronto between 2014 and 2019"
+title: "Shooting Occurrences Increased Across the City of Toronto Between 2014 and 2019"
 author: "Talia Fabregas"
-date: "January 21, 2024"
+date: today
+date.format: long
 format: pdf
 editor: visual
+bibliography: references.bib
 ---
 
 ## Abstract
 
-In 2005, the City of Toronto saw unprecedented levels of gun violence (Siciliano, 2). More than a decade later, the number of shooting occurrences in Toronto continued to rise. Using data from the City of Toronto Open Data Portal, this paper illustrates trends in the number of shooting occurrences in different divisions of Toronto, from 2014 to 2019, inclusive. This paper shows that across the City of Toronto, shooting occurrences steadily increased in the six-year period from 2014 to 2019.
+In 2005, the City of Toronto saw unprecedented levels of gun violence @siciliano. More than a decade later, the number of yearly shooting occurrences across Toronto continued to rise. Using data from the City of Toronto Open Data Portal, this paper illustrates trends in the number of shooting occurrences in different divisions of Toronto, from 2014 to 2019, inclusive. This paper shows that across the City of Toronto, shooting occurrences steadily increased in the six-year period from 2014 to 2019.
 
 ## Table of Contents
 
-##### 1. Introduction
+1.  Introduction
 
-##### 2. Data
+2.  Data
 
-##### 3. Discussion
+3.  Analysis and Results
 
-##### 4. Conclusions
+4.  Conclusion
 
-## Introduction
+5.  References
 
-Canada has the fifth-highest rate of gun fatalities in the world among high-income countries, and between 2008 and 2012, firearms caused more deaths in young men ages 18-24 than cancer, falls, drowning, and fires combined (Owens, 2019).
+## 1 Introduction
 
-## Data
+Canada has the fifth-highest rate of gun fatalities in the world among high-income countries, and between 2008 and 2012, firearms caused more deaths in young men ages 18-24 than cancer, falls, drowning, and fires combined. @owensCite
+
+## 2 Data
+
+The data used throughout this paper was obtained through the City of Toronto's Open Data Portal, OpenDataToronto. @opendatatorontoCite. OpenDataToronto is a publicly-funded, widely accessible data portal, with data relating to various topics including, but not limited to, social services, public services, elections, public safety, policing, education, and public health. Data was collected, cleaned, and analyzed using statistical programming language R @citeR. Additionally, tidyverse @tidyverseCite, dplyr @dplyrCite, janitor @janitorCite, ggplot2 @citeggplot, and readr @citereadr, and knitr @knitrcite were used for the data analysis and visualizations.
+
+The data set used in this paper is titled "Shooting Occurrences (2014-2019). It includes all shooting-related events reported to Toronto Police Service from 2014 to 2019 @opendatatorontoCite. The data is divided between Toronto's police divisions. The data set contains 96 rows; one row for each of Toronto's geographical divisions for each of the six years from 2014 to 2019 inclusive. Further information about the individual shooting events is not provided. More specifically, each row in the data set contains the number of shooting occurrences in each geographical division each year from 2014 to 2019.
+
+The data includes a unique row identifier, the geographical division, year the shootings occurred, and the number of shootings that occurred in that geographical division that year. The precise location, date, time, injury levels, and resulting charges of each shooting are not included in this data set. The data set provides only very high-level data: the general area of where the shootings occurred and how many shootings occurred.
 
 ```{r}
 #| include: false
@@ -35,20 +45,29 @@ library(opendatatoronto)
 library(janitor)
 library(dplyr)
 library(ggplot2)
+library(knitr)
 
 # loading the cleaned data
 shooting_data <- read_csv(here::here("outputs/data/toronto_shooting_data.csv"))
-shooting_data
-
-
-  
 ```
 
-## 
+```{r}
+#| label: fig-
+#| fig-cap: Sample of something from the data
+#| echo: false
+#| warning: false
+#| message: false
+
+
+```
+
+## Analysis
+
+The data analysis component of this paper explores the details of shooting occurrence trends across all geographical divisions of the City of Toronto from 2014 to 2019.
 
 ```{r}
 #| label: fig-yearlytotalshootings
-#| fig-cap: Total Number of Shooting Occurrences Acoross Toronto, 2014-2019
+#| fig-cap: Total Number of Shooting Occurrences Acoross Toronto per year, 2014-2019
 #| echo: false
 #| warning: false
 #| message: false
@@ -62,39 +81,27 @@ yearly_totals_df <- data.frame(
 )
 
 ggplot(yearly_totals_df, aes(x=Year, y=Total)) +
-  geom_bar(stat="identity", fill="#f36767", width=0.8) +
-  geom_line(size=1, color="blue", ) +
+  geom_histogram(stat="identity", fill="#f36767", width=0.7, alpha=0.8) +
+  geom_smooth() +
   scale_x_continuous(breaks = seq(min(yearly_totals_df$Year), max(yearly_totals_df$Year), by = 1))
 ```
 
 ```{r}
-#| label: fig-amrushdelays
-#| fig-cap: Morning Rush Hour Delays, by Day
+#| label: fig-shootingsbydivision
+#| fig-cap: Shooting Occurrences by Geographical Division, 2014-2019
 #| echo: false
 #| warning: false
 #| message: false
-
-# weekdays <- streetcar_data |>
-#   filter(day == "Monday" | day == "Tuesday" | day == "Wednesday" |
-#            day == "Thursday" | day == "Friday") 
-# amrush <- weekdays |>
-#   filter(am_rush == 1) |>
-#   group_by(day) |>
-#   summarize(am_delays = n())
-# 
-# pmrush <- weekdays |>
-#   filter(pm_rush == 1) |>
-#   group_by(day) |>
-#   summarize(pm_delays = n())
 
 area_totals <- shooting_data |>
   group_by(geo_division, occurred_year) |>
   summarise(total = sum(count))
 
 ggplot(area_totals, aes(x=geo_division, y=total, fill=geo_division)) +
-    geom_bar(stat="identity") +
+    geom_histogram(stat="identity") +
   theme(axis.text.x = element_blank()) +
-    facet_wrap(~occurred_year)
+    facet_wrap(~occurred_year) +
+  labs(title="The Number of Shooting Occurrences Varied by Geographical Division Each Year")
 
 ```
 
@@ -106,8 +113,8 @@ ggplot(area_totals, aes(x=geo_division, y=total, fill=geo_division)) +
 #| message: false
 
 ggplot(area_totals, aes(x=occurred_year, y=total)) +
-    geom_bar(stat="identity", fill="#f36767", width=0.8) +
-  geom_line(color="blue") +
+    geom_histogram(stat="identity", fill="#f36767", width=0.8, alpha=0.8) +
+  geom_smooth(size=0.5)+
   scale_x_continuous(breaks = seq(min(yearly_totals_df$Year), max(yearly_totals_df$Year), by = 1)) +
   theme(axis.text = element_text(size = 5)) +
   facet_wrap(~geo_division)
@@ -115,7 +122,7 @@ ggplot(area_totals, aes(x=occurred_year, y=total)) +
 
 ```
 
-## Conclusions
+## Conclusion
 
 This paper investigates how patterns in the number of shooting occurrences across Toronto changed between 2014 and 2019. The data clearly showed that while the overall total number of shooting occurrences across the City of Toronto increased year-over-year between 2014 and 2019, this pattern varied between divisions.
 
