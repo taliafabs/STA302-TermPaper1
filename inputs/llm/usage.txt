@@ -116,3 +116,34 @@ ggplot(yearly_totals, aes(x = occurred_year, y = total, group = geo_division, co
   theme(axis.text.x = element_blank())  # Remove x-axis text
 In this example, I've set x = NULL within the labs function to remove the x-axis label, and I've used axis.text.x = element_blank() within the theme function to remove the x-axis text. Adjust other parameters as needed for your specific plot.
 
+User
+how do i make a ggplot title smaller
+ChatGPT
+To make the title smaller in a ggplot2 plot, you can use the theme function and set the plot.title parameter to control the size of the title. Here's an example:
+
+R
+Copy code
+library(dplyr)
+library(ggplot2)
+
+# Assuming 'shooting_data' is your data frame
+yearly_totals <- shooting_data %>%
+  group_by(occurred_year, geo_division) %>%
+  summarise(total = sum(count))
+
+ggplot(yearly_totals, aes(x = occurred_year, y = total, group = geo_division, color = geo_division)) +
+  geom_line(size = 1.5) +
+  facet_wrap(~geo_division, scales = "free_y") +
+  labs(title = "Total Shootings Each Year by Geo Division",
+       x = NULL,
+       y = "Total Shootings") +
+  theme(axis.text.x = element_blank(),
+        plot.title = element_text(size = 12))  # Adjust font size for plot title
+In this example, I've set size = 12 within the element_text function for the plot.title parameter. Adjust the value passed to size as needed to make the title smaller or larger according to your preference.
+
+
+
+
+
+
+
