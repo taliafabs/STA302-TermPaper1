@@ -14,6 +14,7 @@ library(tidyverse)
 library(janitor)
 
 #### Simulate data ####
+set.seed(100)
 simulated_data <- 
   tibble(
     # Use 1 through 100 to do 100 simulations.
