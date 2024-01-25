@@ -30,11 +30,11 @@ Canada has the fifth-highest rate of gun fatalities in the world among high-inco
 
 ## 2 Data
 
-The data used throughout this paper was obtained through the City of Toronto's Open Data Portal, OpenDataToronto. @opendatatorontoCite. OpenDataToronto is a publicly-funded, widely accessible data portal, with data relating to various topics including, but not limited to, social services, public services, elections, public safety, policing, education, and public health. Data was collected, cleaned, and analyzed using statistical programming language R @citeR. Additionally, tidyverse @tidyverseCite, dplyr @dplyrCite, janitor @janitorCite, ggplot2 @citeggplot, and readr @citereadr, and knitr @knitrcite were used for the data analysis and visualizations.
+The data used throughout this paper was obtained through the City of Toronto's Open Data Portal, OpenDataToronto. @opendatatorontoCite OpenDataToronto is a publicly-funded, widely accessible data portal, with data relating to various topics including, but not limited to, social services, public services, elections, public safety, policing, education, and public health. Data was collected, cleaned, and analyzed using statistical programming language R @citeR. Additionally, tidyverse @tidyverseCite, dplyr @dplyrCite, janitor @janitorCite, ggplot2 @citeggplot, and knitr @knitrcite were used for the data analysis and visualizations.
 
 The data set used in this paper is titled "Shooting Occurrences (2014-2019). It includes all shooting-related events reported to Toronto Police Service from 2014 to 2019 @opendatatorontoCite. The data is divided between Toronto's police divisions. The data set contains 96 rows; one row for each of Toronto's geographical divisions for each of the six years from 2014 to 2019 inclusive. Further information about the individual shooting events is not provided. More specifically, each row in the data set contains the number of shooting occurrences in each geographical division each year from 2014 to 2019.
 
-The data includes a unique row identifier, the geographical division, year the shootings occurred, and the number of shootings that occurred in that geographical division that year. The precise location, date, time, injury levels, and resulting charges of each shooting are not included in this data set. The data set provides only very high-level data: the general area of where the shootings occurred and how many shootings occurred.
+The data includes a unique row identifier, the geographical division, year the shootings occurred, and the number of shootings that occurred in the respective geographical division that year. The precise location, date, time, injury levels, and resulting charges of each shooting are not included in this data set. The data set provides only very high-level data: the general area of where the shootings occurred and how many shootings occurred.
 
 ```{r}
 #| include: false
@@ -57,16 +57,13 @@ shooting_data <- read_csv(here::here("outputs/data/toronto_shooting_data.csv"))
 #| echo: false
 #| warning: false
 #| message: false
-
-
 ```
 
 ## Analysis
 
-The data analysis component of this paper explores the details of shooting occurrence trends across all geographical divisions of the City of Toronto from 2014 to 2019.
+The data analysis component of this paper explores the details of shooting occurrence trends across all geographical divisions of the City of Toronto from 2014 to 2019. The data analysis examines trends in the number of shooting occurrences across the City of Toronto and within each geographical division from 2014 to 2019. Additionally, variation in the number of shooting occurrences between geographical divisions each year from 2014 to 2019 will be analyzed.
 
 ```{r}
-#| label: fig-yearlytotalshootings
 #| fig-cap: Total Number of Shooting Occurrences Acoross Toronto per year, 2014-2019
 #| echo: false
 #| warning: false
@@ -88,7 +85,7 @@ ggplot(yearly_totals_df, aes(x=Year, y=Total)) +
 
 ```{r}
 #| label: fig-shootingsbydivision
-#| fig-cap: Shooting Occurrences by Geographical Division, 2014-2019
+#| fig-cap: Number of Shooting Occurrences Per Geographical Division, 2014-2019
 #| echo: false
 #| warning: false
 #| message: false
@@ -126,6 +123,6 @@ D12, D23, and D31 consistently had more shooting occurrences than other geograph
 
 ## Conclusion
 
-This paper investigates how patterns in the number of shooting occurrences across Toronto changed between 2014 and 2019. The data clearly showed that while the overall total number of shooting occurrences across the City of Toronto increased year-over-year between 2014 and 2019, this pattern varied between divisions. Further research and investigation will be required to gain a deeper understanding of *why* gun violence widely varies across Toronto's different geographical divisions. However, the increase in shootings across the City of Toronto from 2014 to 2019 is ext
+This paper investigates how patterns in the number of shooting occurrences across Toronto changed between 2014 and 2019. The data clearly showed that while the overall total number of shooting occurrences across the City of Toronto increased year-over-year between 2014 and 2019, this pattern varied between divisions. Further research and investigation will be required to gain a deeper understanding of *why* gun violence widely varies across Toronto's different geographical divisions.
 
 ## References
