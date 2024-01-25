@@ -21,19 +21,13 @@ abstract: In 2005, the City of Toronto saw unprecedented levels of gun violence 
 
 ## 1 Introduction
 
-Canada has the fifth-highest rate of gun fatalities in the world among high-income countries, and between 2008 and 2012, firearms caused more deaths in young men ages 18-24 than cancer, falls, drowning, and fires combined. @owensCite
+Although Canada's gun violence numbers are not as high as those of the United States, its its largest city, Toronto, saw three times more shooting occurrences in 2019 than in 2014. Canada has the fifth-highest rate of gun fatalities in the world among high-income countries, and between 2008 and 2012, firearms caused more deaths in young men ages 18-24 than cancer, falls, drowning, and fires combined @owensCite. These alarming statistics shed light on Canada's gun violence epidemic. Gun violence must be addressed through research and fact-based public policy, not cheap political games. This research paper aims to illustrate what the numbers can tell us about the increase in gun violence that Toronto saw in the six-year period from 2014 to 2019.
 
-The code and data that were used for this analysis are available on GitHub. \[\^1\]
+The code and data that were used for this analysis paper are available via GitHub. \[\^1\]
 
 \[\^1\] <https://github.com/taliafabs/TorontoDataPaper.git>
 
 ## 2 Data
-
-The data used throughout this paper was obtained through the City of Toronto's Open Data Portal, OpenDataToronto. @opendatatorontoCite OpenDataToronto is a publicly-funded, widely accessible data portal, with data relating to various topics including, but not limited to, social services, public services, elections, public safety, policing, education, and public health. Data was collected, cleaned, and analyzed using statistical programming language R @citeR. Additionally, tidyverse @tidyverseCite, dplyr @dplyrCite, janitor @janitorCite, ggplot2 @citeggplot, and knitr @knitrcite were used for the data analysis and visualizations.
-
-The data set used in this paper is titled "Shooting Occurrences (2014-2019). It includes all shooting-related events reported to Toronto Police Service from 2014 to 2019 @opendatatorontoCite. The data is divided between Toronto's police divisions. The data set contains 96 rows; one row for each of Toronto's geographical divisions for each of the six years from 2014 to 2019 inclusive. Further information about the individual shooting events is not provided. More specifically, each row in the data set contains the number of shooting occurrences in each geographical division each year from 2014 to 2019. The precise location, date, time, injury levels, and resulting charges of each shooting are not included in this data set. The data set provides only very high-level data: the general area of where the shootings occurred and how many shootings occurred.
-
-The raw data includes the following column variables: a unique row identifier "\_id", year the shootings occurred "occurred_year", the geographical division "geo_division", and "count", the number of shootings that occurred in the respective geographical division that year. My data cleaning process was very simple and straightforward. Additionally, I used the dplyr package select function, @dplyrCite to remove columns that are not relevant for the purposes of my data analysis. My cleaned data includes the following column variables: occurred_year, geo_division, category, and count. The data set is reliable and rows are easily identifiable without the unique row identifier. The unique row identifiers present in the raw data were not necessary because each (occurred_year, geo_division) pair occurs only once in this data set. In the context of the relational model of database design and SQL, (occurred_year, division) would be a super key because it must be unique and cannot be NA.
 
 ```{r}
 #| include: false
@@ -46,16 +40,6 @@ library(janitor)
 library(dplyr)
 library(ggplot2)
 library(knitr)
-
-
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Sample Data"
-#| warning: false
 ```
 
 ```{r}
@@ -66,18 +50,39 @@ library(knitr)
 shooting_data <- read_csv(here::here("outputs/data/toronto_shooting_data.csv"))
 ```
 
+The data used throughout this paper was obtained through the City of Toronto's Open Data Portal, OpenDataToronto. @opendatatorontoCite OpenDataToronto is a publicly-funded, widely accessible data portal, with data relating to various topics including, but not limited to, social services, public services, elections, public safety, policing, education, and public health. Data was collected, cleaned, and analyzed using statistical programming language R @citeR. Additionally, tidyverse @tidyverseCite, dplyr @dplyrCite, janitor @janitorCite, ggplot2 @citeggplot, and knitr @knitrcite were used for the data analysis and visualizations.
+
+The data set used in this paper is titled "Shooting Occurrences (2014-2019)." It includes all shooting-related events reported to Toronto Police Service from 2014 to 2019 @opendatatorontoCite. The data is divided between Toronto's police divisions. The data set contains 96 rows; one row for each of Toronto's geographical divisions for each of the six years from 2014 to 2019 inclusive. Further information about the individual shooting incidents is not provided. More specifically, each row in the data set contains the number of shooting occurrences in each geographical division each year from 2014 to 2019. The precise location, date, time, injury levels, and resulting charges of each shooting are not included in this data set. The data set provides only very high-level data: the general area of where the shootings occurred and how many shootings occurred.
+
+The raw data includes the following column variables: a unique row identifier "\_id", year the shootings occurred "occurred_year", the geographical division "geo_division", and "count", the number of shootings that occurred in the respective geographical division that year. My data cleaning process was very simple and straightforward. Additionally, I used the dplyr package select function, @dplyrCite to remove columns that are not relevant for the purposes of my data analysis. My cleaned data includes the following column variables: occurred_year, geo_division, category, and count.
+
+```{r}
+#| echo: false
+#| eval: true
+#| label: tbl-datasample
+#| tbl-cap: "Sample from the Data"
+#| warning: false
+
+kable(head(shooting_data))
+```
+
+@tbl-datasample shows the first few rows of my cleaned data. The data set is reliable and rows are easily identifiable without the unique row identifier. The unique row identifiers present in the raw data were not necessary because each (occurred_year, geo_division) pair occurs only once in this data set. In the context of the relational model of database design and SQL, (occurred_year, division) would be a super key because it must be unique and cannot be NA.
+
+The relationship between
+
 ## 3 Analysis and Results
 
-The data analysis component of this paper explores the details of shooting occurrence trends across all geographical divisions of the City of Toronto from 2014 to 2019. It analysis examines trends in the number of shooting occurrences across the City of Toronto and within each geographical division from 2014 to 2019. Additionally, variation in the number of shooting occurrences between geographical divisions each year from 2014 to 2019 will be analyzed and illustrated by the visualizations below.
+The data analysis component of this paper explores the details of shooting occurrence trends across all geographical divisions of the City of Toronto from 2014 to 2019. It examines trends in the number of shooting occurrences across the City of Toronto and within each geographical division from 2014 to 2019. Additionally, variation in the number of shooting occurrences between geographical divisions each year from 2014 to 2019 will be analyzed and illustrated by the visualizations below.
 
 #### 3.1 Annual Shooting Occurrence Trends
 
 ```{r}
-#| label: fig-totalshootings
-#| fig-cap: Total Number of Shooting Occurrences Acoross Toronto per year, 2014-2019
 #| echo: false
+#| eval: true
+#| label: tbl-totalshootingstable
+#| tbl-cap: "Total Annual Shooting Occurrences Across Toronto, 2014-2019"
 #| warning: false
-#| message: false
+
 yearly_totals <- shooting_data |>
   group_by(occurred_year) |>
   summarise(total = sum(count))
@@ -87,17 +92,24 @@ yearly_totals_df <- data.frame(
   Total = yearly_totals$total
 )
 
-yearly_totals_df
+kable(yearly_totals_df)
+```
 
+```{r}
+#| label: fig-totalshootings
+#| fig-cap: Annual Shooting Occurrences Across Toronto, 2014-2019
+#| echo: false
+#| warning: false
+#| message: false
 ggplot(yearly_totals_df, aes(x=Year, y=Total)) +
   geom_histogram(stat="identity", fill="#f36767", width=0.7, alpha=0.8) +
   geom_smooth() +
   scale_x_continuous(breaks = seq(min(yearly_totals_df$Year), max(yearly_totals_df$Year), by = 1))
 ```
 
-The number of shooting occurrences across the City of Toronto increased between 2014 and 2019, inclusive. @fig-totalshootings clearly illustrates this trend. The red bars on the histogram illustrate the total number of shooting occurrences across all geographical divisions in the City of Toronto per year and the blue smoothing line illustrates the trend in the number of annual shooting occurrences during this time period. The blue smoothing line makes it evident that there was a consistent upward trend in the number of shooting occurrences in the City of Toronto between 2014 and 2019, inclusive. Refer to @table-totalshootingstable for the exact number of shooting occurrences across the City of Toronto each year.
+The number of shooting occurrences across the City of Toronto increased between 2014 and 2019, inclusive. @fig-totalshootings clearly illustrates this trend. The red bars on the histogram illustrate the total number of shooting occurrences across all geographical divisions in the City of Toronto per year and the blue smoothing line illustrates the trend in the number of annual shooting occurrences during this time period. The blue smoothing line makes it evident that there was a consistent upward trend in the number of shooting occurrences in the City of Toronto between 2014 and 2019, inclusive. Refer to @tbl-totalshootingstable for the exact number of shooting occurrences across the City of Toronto each year.
 
-We can that the steepest increase was between 2014 (177 shooting occurrences) and 2017 (407 shooting occurrences), where that number more than doubled. The number of shooting occurrences decreased very slightly between 2016 and 2017, and then increased every year from 2017 to 2019, but at a slower rate than the period from 2014 to 2016. Although the rate at which the annual number of shooting occurrences across the City of Toronto increased slowed down after 2016, the trend illustrated by @fig-totalshootings is still extremely concerning. The number of annual shooting occurrences across the city in 2019 (492) was more than triple what it was in 2014 (177).
+We can that the steepest increase was between 177 in 2014 and 407 in 2017, where that number more than doubled @tbl-totalshootingstable. The number of shooting occurrences decreased very slightly between 2016 and 2017, and then increased every year from 2017 to 2019, but at a slower rate than the period from 2014 to 2016. Although the rate at which the annual number of shooting occurrences across the City of Toronto increased slowed down after 2016, the trend illustrated by @fig-totalshootings is still extremely concerning. The number of annual shooting occurrences across the city in 2019 (492) was more than triple what it was in 2014 (177).
 
 #### 3.2 Annual Shooting Occurrence Trends and Variation Across Different Geographical Divisions
 
