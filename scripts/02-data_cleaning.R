@@ -21,6 +21,7 @@ raw_shooting_data <- read_csv("inputs/data/raw_shooting_data.csv")
 shootingdata <- 
   raw_shooting_data |>
   janitor::clean_names() |>
+  select(occurred_year, geo_division, category, count) |>
   tidyr::drop_na()
 
 
