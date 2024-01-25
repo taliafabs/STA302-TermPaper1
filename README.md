@@ -5,7 +5,7 @@ This repository contains the data, steps, code, and processes that were used for
 
 This repository can be used for the purpose of independently reproducing the results of this data analysis.
 
-Statement on Large Language Models (LLM) Usage: The Large Language Model (LLM) ChatGPT GPT-3.5 was used for the purposes of this paper. It was only really helpful for adjusting the theme, text size, colors, and aesthetics of my histograms. Asking ChatGPT these questions was quicker and easier than searching R documentation. My interaction with ChatGPT GPT-3.5 can be found in `input/data/llm/usage.txt`
+Statement on Large Language Models (LLM) Usage: The Large Language Model (LLM) ChatGPT GPT-3.5 was used for the purposes of this paper. It was only really helpful for adjusting the theme, text size, colors, and aesthetics of my histograms. Asking ChatGPT these questions was quicker and easier than searching R documentation. My interactions with ChatGPT GPT-3.5 can be found in `input/data/llm/usage.txt`
 
 ## File Structure
 
