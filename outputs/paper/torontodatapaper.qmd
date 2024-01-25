@@ -68,7 +68,7 @@ kable(head(shooting_data))
 
 @tbl-datasample shows the first few rows of my cleaned data. The data set is reliable and rows are easily identifiable without the unique row identifier. The unique row identifiers present in the raw data were not necessary because each (occurred_year, geo_division) pair occurs only once in this data set. In the context of the relational model of database design and SQL, (occurred_year, division) would be a super key because it must be unique and cannot be NA.
 
-The relationship between
+The analysis will examine trends in the data, as well as the relationship between the independent variables, occurred_year and geo_division, and the dependent variable, count.
 
 ## 3 Analysis and Results
 
@@ -113,9 +113,9 @@ We can that the steepest increase was between 177 in 2014 and 407 in 2017, where
 
 #### 3.2 Annual Shooting Occurrence Trends and Variation Across Different Geographical Divisions
 
+Shooting occurrence trends and counts varied across Toronto's geographical divisions.
+
 ```{r}
-#| label: fig-shootingsbydivision
-#| fig-cap: Number of Shooting Occurrences Per Geographical Division, 2014-2019
 #| echo: false
 #| warning: false
 #| message: false
@@ -123,6 +123,14 @@ We can that the steepest increase was between 177 in 2014 and 407 in 2017, where
 area_totals <- shooting_data |>
   group_by(geo_division, occurred_year) |>
   summarise(total = sum(count))
+```
+
+```{r}
+#| label: fig-shootingsbydivision
+#| fig-cap: Number of Shooting Occurrences Per Geographical Division, 2014-2019
+#| echo: false
+#| warning: false
+#| message: false
 
 ggplot(area_totals, aes(x=geo_division, y=total, fill=geo_division)) +
     geom_histogram(stat="identity") +
